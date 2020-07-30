@@ -8,7 +8,7 @@ PC微信Hook逆向程序：Hook到微信消息，然后与Python程序进行交�
 ## 支持的微信版本
 * [2.8.0.133](https://github.com/MaoningGuan/PyWeChat/raw/master/WeChat%202.8.0.133%20(Win%2C%2064bit).exe)
 
-## WeChatSpy.dll 的开发源代码(C++)地址
+## 核心文件WeChatSpy.dll 的开发源代码(C++)地址
 * [https://github.com/MaoningGuan/WeChatSpy](https://github.com/MaoningGuan/WeChatSpy)
 
 ## 返回数据样例
