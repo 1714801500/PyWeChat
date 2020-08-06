@@ -93,8 +93,8 @@ class WeChatSpy:
                     pid = "unknown"
                     return self.logger.warning(f"A WeChat process (PID:{pid}) has disconnected: {e}")
 
-            if data_str and data_str.endswith("*393545857*"):  # 防止socket黏包
-                for data in data_str.split("*393545857*"):
+            if data_str and data_str.endswith("*5201314*"):  # 防止socket黏包
+                for data in data_str.split("*5201314*"):
                     if data:
                         try:
                             data = self.__str_to_json(data)
