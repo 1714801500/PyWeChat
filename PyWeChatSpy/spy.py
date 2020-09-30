@@ -79,11 +79,11 @@ class WeChatSpy:
             raise
 
     def receive(self, socket_client):
+        data_str = ""
+        _data_str = None
         while True:
-            data_str = None
             try:
-                data_str = socket_client.recv(4096).decode(encoding="utf-8", errors="ignore")
-                # print(data_str)
+                _data_str = socket_client.recv(4096).decode(encoding="utf-8", errors="ignore")
             except Exception as e:
                 for pid, client in self.__pid2client.items():
                     if client == socket_client:
@@ -92,14 +92,15 @@ class WeChatSpy:
                 else:
                     pid = "unknown"
                     return self.logger.warning(f"A WeChat process (PID:{pid}) has disconnected: {e}")
-
+            if _data_str:  # 防止一次接收4096个字节，没有把所有内容都接收完，要把多次接收内容拼接起来，组成一次完成的消息内容
+                data_str += _data_str
             if data_str and data_str.endswith("*5201314*"):  # 防止socket黏包
                 for data in data_str.split("*5201314*"):
                     if data:
                         try:
+                            # print(data)
                             data = self.__str_to_json(data)
                             # data = literal_eval(data)
-                            # print(data)
                             # print(type(data))
                         except:
                             self.logger.warning("接收数据解析出错！")
@@ -112,6 +113,7 @@ class WeChatSpy:
                                 self.logger.info(f"A WeChat process (PID:{data['pid']}) successfully connected")
                             if callable(self.__parser):
                                 self.__parser(data)
+                data_str = ""
 
     def __send(self, data, pid):
         if pid:
